@@ -62,11 +62,20 @@ app.use(
 const csrfProtection = csurf({
     cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Ensure this matches your environment
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'none',
     }
 });
 app.use(csrfProtection);
+
+app.use((req, res, next) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken(), {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+    });
+    next();
+});
 
 
 // Rate limiter middleware
