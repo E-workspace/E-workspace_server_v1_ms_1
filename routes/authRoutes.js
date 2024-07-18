@@ -14,6 +14,9 @@ router.use((req, res, next) => {
     next();
 });
 
+const csrfProtection = csurf({ cookie: { httpOnly: true, secure: process.env.NODE_ENV === 'production' } });
+router.use(csrfProtection);
+
 // Register Route with file upload middleware
 router.post('/register', limiter, upload.single('profileImage'), validateRegister, registerUser);
 
