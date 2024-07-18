@@ -4,7 +4,7 @@ const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const protectedRoutes = require('./routes/protectedRoutes');
 const session = require('express-session');
-const MongoStore = require('connect-mongo'); // Correct import for MongoStore
+const MongoStore = require('connect-mongo');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -35,12 +35,13 @@ app.use(
 app.use(hpp());
 app.use(xss());
 
-app.use(express.json());
-app.use(cors({
-    origin: 'https://e-workspace-server-v1-ms-1.onrender.com/',
+const corsOptions = {
+    origin: ['https://e-workspace-peach.vercel.app', 'http://localhost:3000'],
     credentials: true,
-}));
+};
+app.use(cors(corsOptions));
 
+app.use(express.json());
 app.use(cookieParser());
 
 app.use(
@@ -48,11 +49,11 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
-        store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }), // Corrected MongoStore configuration
+        store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
         cookie: {
             secure: process.env.NODE_ENV === 'production',
             httpOnly: true,
-             maxAge: 7 * 24 * 60 * 60 * 1000,  // 1 day
+            maxAge: 7 * 24 * 60 * 60 * 1000,  // 1 week
         },
     })
 );
@@ -60,7 +61,6 @@ app.use(
 // CSRF protection middleware
 const csrfProtection = csurf({ cookie: true });
 app.use(csrfProtection);
-
 
 // Rate limiter middleware
 app.use('/api/', limiter);
