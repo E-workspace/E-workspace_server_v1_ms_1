@@ -86,8 +86,15 @@ app.use('/api/auth', authRoutes);
 app.use('/api/protected', protectedRoutes);
 
 app.get('/api/csrf-token', (req, res) => {
-    res.json({ csrfToken: req.csrfToken() });
+    const csrfToken = req.csrfToken();
+    res.cookie('XSRF-TOKEN', csrfToken, {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+    });
+    res.json({ csrfToken });
 });
+
 
 app.use(notFound);
 app.use(errorHandler);
