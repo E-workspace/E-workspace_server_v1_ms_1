@@ -37,7 +37,7 @@ app.use(xss());
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'e-workspace-peach.vercel.app',
     credentials: true,
 }));
 
