@@ -37,7 +37,7 @@ app.use(xss());
 
 app.use(express.json());
 app.use(cors({
-    origin: 'https://e-workspace-server-v1-ms-1.onrender.com',
+    origin: 'https://e-workspace-server-v1-ms-1.onrender.com/',
     credentials: true,
 }));
 
