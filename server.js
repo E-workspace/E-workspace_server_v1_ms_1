@@ -59,8 +59,15 @@ app.use(
 );
 
 // CSRF protection middleware
-const csrfProtection = csurf({ cookie: true });
+const csrfProtection = csurf({
+    cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Ensure this matches your environment
+        sameSite: 'none',
+    }
+});
 app.use(csrfProtection);
+
 
 // Rate limiter middleware
 app.use('/api/', limiter);
