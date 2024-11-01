@@ -5,6 +5,7 @@ const { protect } = require('../middlewares/authMiddleware');
 const User = require('../models/User');
 
 router.get('/profile', protect, async (req, res) => {
+    console.log(req.user, "usersssssssssss");
     const userId = req.user._id;
     try {
         const userProfile = await User.findById(userId).select('-password -otp');
