@@ -128,14 +128,19 @@
               req.session.save(); // Explicitly save the session
               console.log('Session Details:', req.session);
 
-              res.json({
+            res.json({
                   message: 'Login successful',
                   user: {
                       _id: user._id,
                       username: user.username,
                       email: user.email,
                       role: user.role,
-                      apikey: user.apikey
+                      apikey: user.apikey,
+                      batch: user.batch,
+                      selectedDistrict: user.selectedDistrict,
+                      phoneNumber: user.phoneNumber,
+                      profileImage : user.profileImage,
+
                   },
               });
           } else {
