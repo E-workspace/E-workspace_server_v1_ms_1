@@ -17,6 +17,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    batch: {
+        type: String,
+        required: true,
+    },
+    selectedDistrict: {
+        type: String,
+        required: true,
+    },
+    phoneNumber: {
+        type: String,
+        
+    },
     salt: {
         type: String,
     },
